@@ -1,14 +1,18 @@
 function getData(id){
     d3.json("samples.json").then(data=>{
         console.log(data);
-        var ids= data.samples[0].otu_ids.slice(0,10);
+
+        // filter by id for info
+        var nameInfoResult= data.samples.filter(info=>info.id.toString()===id)[0]
+        console.log(nameInfoResult)
+        var ids= nameInfoResult.otu_ids.slice(0,10);
         var otuIds=ids.map(d=>"OTU "+d);
         console.log(otuIds)
 
-        var sampleValues=data.samples[0].sample_values.slice(0,10);
+        var sampleValues=nameInfoResult.sample_values.slice(0,10);
         console.log(sampleValues);
         
-        var otuLabels =data.samples[0].otu_labels.slice(0,10);
+        var otuLabels =nameInfoResult.otu_labels.slice(0,10);
         console.log(otuLabels);
         var trace = {
             x: sampleValues.reverse(),
@@ -41,14 +45,14 @@ function getData(id){
 
     // create the buble chart
     var trace1 = {
-        x: data.samples[0].otu_ids,
-        y: data.samples[0].sample_values,
+        x:nameInfoResult.otu_ids,
+        y: nameInfoResult.sample_values,
         mode: "markers",
         marker: {
-            size: data.samples[0].sample_values,
-            color: data.samples[0].otu_ids
+            size: nameInfoResult.sample_values,
+            color: nameInfoResult.otu_ids
         },
-        text: data.samples[0].otu_labels
+        text: nameInfoResult.otu_labels
 
     };
 
@@ -72,7 +76,7 @@ function getDataInfo(id){
     d3.json("samples.json").then((data)=>{
         // get the metadata info for the demographic panel
         var nameInfo=data.metadata;
-        console.log(nameInfo[0]);
+        // console.log(nameInfo[0]);
         // filter by id for info
         var nameInfoResult= nameInfo.filter(info=>info.id.toString()===id)[0];
        
@@ -88,7 +92,7 @@ function getDataInfo(id){
         
         });
     });
-}
+};
 // create function to make the bouns graph
 
 
@@ -105,7 +109,7 @@ function init() {
 
     // read the data 
     d3.json("samples.json").then((data)=> {
-        console.log(data)
+        // console.log(data)
 
         // get the id data to the dropdwown menu
         data.names.forEach(function(name) {
