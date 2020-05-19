@@ -117,6 +117,5 @@ function init() {
         getDataInfo(data.names[0]);
     });
 }
-
 init();
 
